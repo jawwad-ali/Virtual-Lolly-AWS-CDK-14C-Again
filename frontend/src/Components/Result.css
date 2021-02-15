@@ -1,0 +1,48 @@
+.created-lolly-container {
+    height: auto;
+    margin-bottom: 50px;
+    margin-top: 50px;
+}
+
+
+.created-lolly-details-div {
+    display: flex;
+    flex-direction: column;
+    color: #efefef;
+    justify-content: left;
+    align-items: left;
+    text-align: left;
+    position: relative;
+}
+
+.dynamic-lolly-path {
+    margin-top: 18px;
+    font-family: 'Yellowtail', cursive;
+
+}
+
+.lolly-details {
+    position: absolute;
+    top: 68px;
+    left: 10px;
+    padding: 1em 2em;
+    margin-bottom: 3.5em;
+    background-color: rgba(0, 0, 0, .2);
+    box-shadow: 0 0 10px rgba(0, 0, 0, .6);
+    text-align: left;
+    font-style: italic;
+    font-size: 1.1em;
+    width: 90%;
+    height: 400px;
+}
+
+.lolly-details h2 {
+    margin-top: 50px;
+    margin-bottom: 50px;
+    font-family: 'Yellowtail', cursive;
+}
+
+.lolly-details h2:nth-child(2) {
+    font-family: cursive;
+
+}

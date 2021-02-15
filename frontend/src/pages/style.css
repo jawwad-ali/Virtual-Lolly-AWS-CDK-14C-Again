@@ -1,0 +1,17 @@
+body {
+    background-color: #21212b;
+}
+
+.homapage-container {
+    height: 120vh;
+    text-align: center;
+}
+
+.displaylolly-container {
+    text-align: center;
+}
+
+.homebtn-div {
+    margin-top: 30px;
+    text-align: center;
+}

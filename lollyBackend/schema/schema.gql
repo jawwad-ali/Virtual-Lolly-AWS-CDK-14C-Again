@@ -1,0 +1,33 @@
+type Event {
+  result: String
+}
+
+type Lolly {
+  id: String
+  c1: String
+  c2: String
+  c3: String
+  rec: String
+  sender: String
+  message: String
+  path: String
+}
+
+input LollyInput {
+  id: String
+  c1: String
+  c2: String
+  c3: String
+  rec: String
+  sender: String
+  message: String
+  path: String
+}
+
+type Query {
+  listLolly: [Lolly]
+}
+
+type Mutation {
+  createLolly(vlolly: LollyInput): Event
+}

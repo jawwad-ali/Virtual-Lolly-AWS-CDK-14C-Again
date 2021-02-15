@@ -1,0 +1,19 @@
+.landingpage-container {
+    background-color: #21212b;
+    height: 35vh;
+}
+
+.heading {
+    color: white;
+    font-size: 70px;
+    text-shadow: #fa73d9 0 0 8px;
+    letter-spacing: 2px;
+    text-align: center;
+}
+
+.tagline {
+    font-style: italic;
+    text-shadow: #fa73d9 0 0 8px;
+    color: white;
+    text-align: center;
+}
