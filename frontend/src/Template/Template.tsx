@@ -5,7 +5,7 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 
 function Template({ pageContext: { c1, c2, c3, rec, sender, message, path } }) {
     return (
-        <div>
+        <div> 
             <div className="container-fluid">
                 <div className="row">
                     <div className="col-lg-5 text-right created-lolly-container ">
