@@ -1,7 +1,7 @@
 import * as cdk from '@aws-cdk/core';
 import * as appsync from '@aws-cdk/aws-appsync';
 import * as ddb from '@aws-cdk/aws-dynamodb';
-import * as lambda from '@aws-cdk/aws-lambda'; 
+import * as lambda from '@aws-cdk/aws-lambda';
 import * as events from "@aws-cdk/aws-events";
 import * as targets from "@aws-cdk/aws-events-targets";
 import { Rule } from '@aws-cdk/aws-events';
@@ -20,6 +20,32 @@ export class LollyBackendStack extends cdk.Stack {
     super(scope, id, props);
 
     // The code that defines your stack goes here
+
+    //Deploy Gatsby on s3 bucket
+    const lollywebBucket = new s3.Bucket(this, "lollyWebsiteBucket", {
+      versioned: true,
+    });
+
+    const distribution = new cloudfront.Distribution(this, "Distribution", {
+      defaultBehavior: {
+        origin: new origins.S3Origin(lollywebBucket),
+      },
+      defaultRootObject: "index.html",
+    });
+
+    // Prints out the web endpoint to the terminal
+    new cdk.CfnOutput(this, "DistributionDomainName", {
+      value: distribution.domainName,
+    });
+
+    // housekeeping for uploading the data in bucket 
+    new s3Deployment.BucketDeployment(this, "DeployWebsite", {
+      sources: [s3Deployment.Source.asset("../frontend/public")],
+      destinationBucket: lollywebBucket,
+      distribution,
+      distributionPaths: ["/*"],
+    });
+
     // API
     const api = new appsync.GraphqlApi(this, 'vlollyApi', {
       name: 'Lolly-14C',
@@ -110,35 +136,13 @@ export class LollyBackendStack extends cdk.Stack {
     //adding target 
     rule.addTarget(new targets.LambdaFunction(virtualLolly_lambda));
 
-    //Deploy Gatsby on s3 bucket
 
-    const lollyWebsiteBucket = new s3.Bucket(this, "WebsiteBucket", {
-      versioned: true,
-    });
-
-    // create a CDN to deploy your website
-    const distribution = new cloudfront.Distribution(this, "Distribution", {
-      defaultBehavior: {
-        origin: new origins.S3Origin(lollyWebsiteBucket),
-      },
-      defaultRootObject: "index.html",
-    });
-    new s3Deployment.BucketDeployment(this, "deployLolly", {
-      sources: [s3Deployment.Source.asset("../frontend/public")],
-      destinationBucket: lollyWebsiteBucket,
-      distribution: distribution
-    });
-
-    // Prints out the web endpoint to the terminal
-    new cdk.CfnOutput(this, "DistributionDomainName", {
-      value: distribution.domainName,
-    });
 
     // CODEPIPELINE
     // Artifact from source stage
     const source_Output = new CodePipeline.Artifact();
 
-    // Artifact from build stage
+    // // Artifact from build stage
     const S3_Output = new CodePipeline.Artifact();
 
     //Code build action, Here you will define a complete build
@@ -194,8 +198,8 @@ export class LollyBackendStack extends cdk.Stack {
         new CodePipelineAction.GitHubSourceAction({
           actionName: 'github_source',
           owner: 'jawwad-ali',
-          repo: "VirtualLollyApp-14C-AWS-CDK",
-          oauthToken: cdk.SecretValue.plainText("9effd23064a1221fe30ebbfb3623cdb61af09a80"),
+          repo: "Virtual-Lolly-AWS-CDK-14C-Again",
+          oauthToken: cdk.SecretValue.plainText("f7375b6f0bd11e5b6b2db3eabb6a391fe389b032"),
           output: source_Output,
           branch: "master",
         })
@@ -220,7 +224,7 @@ export class LollyBackendStack extends cdk.Stack {
         new CodePipelineAction.S3DeployAction({
           actionName: 's3Build',
           input: S3_Output,
-          bucket: lollyWebsiteBucket,
+          bucket: lollywebBucket,
         }),
       ],
     })
