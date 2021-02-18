@@ -199,7 +199,7 @@ export class LollyBackendStack extends cdk.Stack {
           actionName: 'github_source',
           owner: 'jawwad-ali',
           repo: "Virtual-Lolly-AWS-CDK-14C-Again",
-          oauthToken: cdk.SecretValue.plainText("4349625d99d2944a80ed4d2535e467909e027304"),
+          oauthToken: cdk.SecretValue.plainText("f3232d3c706d24352bfe2db2e2b91c00080609ea"),
           output: source_Output,
           branch: "master",
         })
